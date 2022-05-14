@@ -10,6 +10,32 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
+  <header class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper">
+            <ul>
+                <li><a href="{% url 'home' %}" class="left brand-logo">&nbsp;&nbsp;MarkeTrace</a></li>
+            </ul>
+            <ul class="right">
+              <li><a href="{% url 'about' %}">About</a></li>
+
+              {% if user.is_authenticated %}
+          
+              <li><a href="{% url 'test' %}">Test Protected View</a></li>
+              <li><a href="{% url 'logout' %}">Logout</a></li>
+              
+              {% else %}
+              
+              <li><a href="{% url 'login' %}">Login</a></li> 
+              <li><a href="{% url 'signup' %}">Sign Up</a></li> 
+              
+              {% endif %}
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
   {% block content %}
   {% endblock %}
 </body>
