@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+  
+  {% for stock in stocks %}
+  <div class="card">
+    <p>{{ stock.ticker }}</p>
+    <p>{{ stock.price }}</p>
+    <p>{{ stock.description }}</p>
+  </div>
+  {% endfor %}
+  
+</div>
+
+{% endblock %}
