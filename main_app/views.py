@@ -32,6 +32,14 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
+@login_required
+def stock_detail(request, stock_id):
+    stock = Stock.objects.get(id = stock_id)
+    return render(request, 'stock_detail.html', {
+        'stock': stock,
+    })
+
+
 ticker_arr = ['AAPL']
 
 
