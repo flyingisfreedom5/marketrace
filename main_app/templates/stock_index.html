@@ -5,9 +5,11 @@
   
   {% for stock in stocks %}
   <div class="card">
+  <a href="{% url 'stock_detail' stock.id %}">
     <p>Ticker: {{ stock.ticker }}</p>
     <p>Most Recent Close ($): {{ stock.mr_close }}</p>
     <p>Most Recent Trading Volume (# of Shares): {{ stock.mr_volume }}</p>
+  </a>
   </div>
   {% endfor %}
   
