@@ -1,4 +1,22 @@
+from pydoc import describe
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
-# Create your models here.
+
+class Stock(models.Model):
+    ticker = models.CharField(max_length=10)
+    industry = models.CharField(max_length=50)
+    logo = models.URLField(max_length=300)
+    description = models.CharField(max_length=2500)
+
+    mr_close = models.PositiveIntegerField()
+    mr_volume = models.PositiveIntegerField()
+    market_cap = models.PositiveBigIntegerField()
+
+
+    def __str__(self):
+        return f'{self.ticker} - Price: {self.mr_close}'
+        
+
+
