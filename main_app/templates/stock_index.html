@@ -5,9 +5,9 @@
   
   {% for stock in stocks %}
   <div class="card">
-    <p>{{ stock.ticker }}</p>
-    <p>{{ stock.price }}</p>
-    <p>{{ stock.description }}</p>
+    <p>Ticker: {{ stock.ticker }}</p>
+    <p>Most Recent Close ($): {{ stock.mr_close }}</p>
+    <p>Most Recent Trading Volume (# of Shares): {{ stock.mr_volume }}</p>
   </div>
   {% endfor %}
   
