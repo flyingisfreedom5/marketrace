@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 import requests
 from main_app.models import Bucket
-from .models import Stock
+from .models import Stock, StockInstance
 from .forms import StockForm
 
 # Stock = [{'ticker': 'APPL', 'price': 100, 'description': 'This is a description of words and stuff for APPL'}, {'ticker': 'MSFT', 'price': 200, 'description': 'This is a description of words and stuff for MSFT'}, {'ticker': 'FB', 'price': 10, 'description': 'This is a description of words and stuff for FB'}]
@@ -105,9 +105,18 @@ def buckets_index(request):
 # class BucketList(LoginRequiredMixin, ListView):
 #     model = Bucket
 
-class BucketDetail(LoginRequiredMixin, DetailView):
-    model = Bucket
-    fields = '__all__'
+
+
+def bucket_detail(request, bucket_id):
+    stocks = StockInstance.objects.filter(bucket = bucket_id)
+    print(stocks)
+    return render(request, 'main_app/bucket_detail.html', {'stocks': stocks})
+
+
+
+# class BucketDetail(LoginRequiredMixin, DetailView):
+#     model = Bucket
+#     fields = '__all__'
 
 class BucketDelete(LoginRequiredMixin, DeleteView):
   model = Bucket
@@ -118,10 +127,12 @@ class BucketUpdate(LoginRequiredMixin, UpdateView):
   fields = ['name']
   success_url = '/buckets/'
 
-def stock_inst_create(request):
+def stock_inst_create(request, stock_id):
     form = StockForm(request.POST)
     if form.is_valid():
         new_stockInst = form.save(commit = False)
-        new_stockInst.price = Stock.objects.get(pk = form.stock.id).mr_close
+        new_stockInst.price = Stock.objects.get(pk = stock_id).mr_close
         new_stockInst.save()
-    return redirect('buckets_detail', bucket_id = form.bucket.id)
+
+
+    return redirect('buckets_index')

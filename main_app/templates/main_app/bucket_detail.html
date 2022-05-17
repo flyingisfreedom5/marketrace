@@ -11,8 +11,15 @@
         <p>Date: {{ bucket.date }}</p>
       </div>
       <div class="card-action">
-        <a href="{% url 'buckets_delete' bucket.id %}">Delete</a>
-        <a href="{% url 'buckets_update' bucket.id %}">Update</a>
+          {% for stock in stocks %}
+          <div class="card">
+            <p>Ticker: {{ stock.stock.ticker }}</p>
+            <p>Current Price: {{ stock.stock.mr_close }}</p>
+            <p>Price when tracked: {{ stock.price }}</p>
+            <p>{% widthratio stock.stock.mr_close stock.price 1 %}</p>
+            <p></p>
+          </div>
+          {% endfor %}    
       </div>
     </div>
   </div>
