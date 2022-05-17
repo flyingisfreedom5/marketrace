@@ -27,11 +27,18 @@ class Bucket(models.Model):
         on_delete=models.CASCADE
     )    
 
+    def __str__(self):
+        return f'{self.name}'
+
+
 class StockInstance(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     price = models.IntegerField()
     date = models.DateTimeField(auto_now_add = True)
     bucket = models.ForeignKey(Bucket, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Stock Instance of {self.stock.ticker}'
 
 
 

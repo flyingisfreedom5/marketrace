@@ -13,7 +13,7 @@
         <div class>Most Recent Trading Volume (# of Shares): {{ stock.mr_volume }}</div>
       </div>
       <div class="card">
-        <form action="stock_inst_create" method="POST">
+        <form action="{% url 'stock_inst_create' stock.id %}" method="POST">
           {% csrf_token %}
           {{ stock_form.as_p }}
           <input type="submit" class="btn"  value="Add Stock">
