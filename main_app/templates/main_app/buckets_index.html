@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Bucket List</h1>
+
+{% for bucket in buckets %}
+  <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ bucket.name }}</span>
+        <p>Date: {{ bucket.date }}</p>
+      </div>
+  </div>
+{% endfor %}
+
+{% endblock %}
