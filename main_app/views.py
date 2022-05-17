@@ -87,7 +87,7 @@ def stock_index(request):
 class BucketCreate(LoginRequiredMixin, CreateView):
     model = Bucket
     fields = ['name']
-    success_url = '/stocks/'
+    success_url = '/buckets/'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -102,5 +102,10 @@ def buckets_index(request):
 # class BucketList(LoginRequiredMixin, ListView):
 #     model = Bucket
 
-# class BucketDetail(LoginRequiredMixin, DetailView):
-#     model = Bucket
+class BucketDetail(LoginRequiredMixin, DetailView):
+    model = Bucket
+    fields = '__all__'
+
+class BucketDelete(LoginRequiredMixin, DeleteView):
+  model = Bucket
+  success_url = '/buckets/'
