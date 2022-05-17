@@ -21,7 +21,7 @@ class Stock(models.Model):
 class Bucket(models.Model):
     name = models.CharField(max_length=20)
     date = models.DateTimeField(auto_now_add = True)
-    numStocks = models.IntegerField()
+    numStocks = models.IntegerField(default = 0)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE

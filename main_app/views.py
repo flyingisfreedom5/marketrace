@@ -86,6 +86,7 @@ def stock_index(request):
 class BucketCreate(LoginRequiredMixin, CreateView):
     model = Bucket
     fields = ['name']
+    success_url = '/stocks/'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
