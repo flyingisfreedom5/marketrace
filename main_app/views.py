@@ -43,32 +43,32 @@ def stock_detail(request, stock_id):
     })
 
 
-ticker_arr = ['AAPL', 'GOOGL' ]
+# ticker_arr = ['AAPL', 'GOOGL' ]
 
 
 @login_required
 def stock_index(request):
-    for ticker in ticker_arr:
-        stock_data_raw = requests.get(f'https://api.polygon.io/v1/open-close/{ticker}/2022-05-13?adjusted=true&apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU').json()
-        stock_ticker = ticker
-        stock_mr_close = stock_data_raw['close']
-        stock_mr_volume = stock_data_raw['volume']
+    # for ticker in ticker_arr:
+    #     stock_data_raw = requests.get(f'https://api.polygon.io/v1/open-close/{ticker}/2022-05-13?adjusted=true&apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU').json()
+    #     stock_ticker = ticker
+    #     stock_mr_close = stock_data_raw['close']
+    #     stock_mr_volume = stock_data_raw['volume']
     
-    currStock = Stock.objects.filter(ticker=ticker)
+    # currStock = Stock.objects.filter(ticker=ticker)
 
-    if (len(currStock) == 0):
-        Stock.objects.create(
-            ticker = stock_ticker,
-            industry = 'na',
-            logo = 'na',
-            description = 'na',
-            mr_close = stock_mr_close,
-            mr_volume = stock_mr_volume,
-            market_cap = 1
-        )
-    else:
-        currStock.mr_close = stock_mr_close
-        currStock.mr_volume = stock_mr_volume
+    # if (len(currStock) == 0):
+    #     Stock.objects.create(
+    #         ticker = stock_ticker,
+    #         industry = 'na',
+    #         logo = 'na',
+    #         description = 'na',
+    #         mr_close = stock_mr_close,
+    #         mr_volume = stock_mr_volume,
+    #         market_cap = 1
+    #     )
+    # else:
+    #     currStock.mr_close = stock_mr_close
+    #     currStock.mr_volume = stock_mr_volume
     
     stocks = Stock.objects.all()
     return render(request,'stock_index.html', {'stocks': stocks})
@@ -108,4 +108,9 @@ class BucketDetail(LoginRequiredMixin, DetailView):
 
 class BucketDelete(LoginRequiredMixin, DeleteView):
   model = Bucket
+  success_url = '/buckets/'
+
+class BucketUpdate(LoginRequiredMixin, UpdateView):
+  model = Bucket
+  fields = ['name']
   success_url = '/buckets/'

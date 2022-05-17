@@ -13,4 +13,5 @@ urlpatterns = [
     path('buckets/', views.buckets_index, name='buckets_index'),
     path('buckets/<int:pk>/', views.BucketDetail.as_view(), name='buckets_detail'),
     path('buckets/<int:pk>/delete/', views.BucketDelete.as_view(), name='buckets_delete'),
+    path('buckets/<int:pk>/update/', views.BucketUpdate.as_view(), name='buckets_update'),
 ]
