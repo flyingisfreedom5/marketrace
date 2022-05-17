@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import os
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -6,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 import requests
+from main_app.models import Bucket
 from .models import Stock
 
 # Stock = [{'ticker': 'APPL', 'price': 100, 'description': 'This is a description of words and stuff for APPL'}, {'ticker': 'MSFT', 'price': 200, 'description': 'This is a description of words and stuff for MSFT'}, {'ticker': 'FB', 'price': 10, 'description': 'This is a description of words and stuff for FB'}]
@@ -40,7 +42,7 @@ def stock_detail(request, stock_id):
     })
 
 
-ticker_arr = ['AAPL']
+ticker_arr = ['AAPL', 'GOOGL' ]
 
 
 @login_required
@@ -80,3 +82,11 @@ def stock_index(request):
     # mr_close = models.PositiveIntegerField()
     # mr_volume = models.PositiveIntegerField()
     # market_cap = models.PositiveBigIntegerField()
+
+class BucketCreate(LoginRequiredMixin, CreateView):
+    model = Bucket
+    fields = ['name']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)

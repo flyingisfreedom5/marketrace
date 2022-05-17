@@ -17,6 +17,18 @@ class Stock(models.Model):
 
     def __str__(self):
         return f'{self.ticker} - Price: {self.mr_close}'
+
+class Bucket(models.Model):
+    name = models.CharField(max_length=20)
+    date = models.DateTimeField(auto_now_add = True)
+    numStocks = models.IntegerField()
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )    
+
+
+
         
 
 

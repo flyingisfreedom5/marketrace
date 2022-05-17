@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if object %}
+  <h1>Edit <span class="teal-text">{{ object.name }}</span></h1>
+{% else %}
+  <h1>Add Bucket</h1>
+{% endif %}
+<!-- HTML forms will post back to the same
+     URL that's in the address bar if the 
+     action attribute is empty
+-->
+<form action="" method="POST">
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+  </table>
+  {% if object %}
+    <input type="submit" value="Update Cat!" class="btn">
+  {% else %}
+    <input type="submit" value="Add Cat!" class="btn">
+  {% endif %}
+</form>
+
+{% endblock %}
