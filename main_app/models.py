@@ -27,6 +27,12 @@ class Bucket(models.Model):
         on_delete=models.CASCADE
     )    
 
+class StockInstance(models.Model):
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    price = models.IntegerField()
+    date = models.DateTimeField(auto_now_add = True)
+    bucket = models.ForeignKey(Bucket, on_delete=models.CASCADE)
+
 
 
         
