@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 import os
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -91,3 +92,15 @@ class BucketCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+@login_required
+def buckets_index(request):
+  buckets = Bucket.objects.filter(user=request.user)
+  return render(request, 'main_app/buckets_index.html', {'buckets': buckets})
+
+
+# class BucketList(LoginRequiredMixin, ListView):
+#     model = Bucket
+
+# class BucketDetail(LoginRequiredMixin, DetailView):
+#     model = Bucket
