@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 import requests
 from main_app.models import Bucket
 from .models import Stock
+from .forms import StockForm
 
 # Stock = [{'ticker': 'APPL', 'price': 100, 'description': 'This is a description of words and stuff for APPL'}, {'ticker': 'MSFT', 'price': 200, 'description': 'This is a description of words and stuff for MSFT'}, {'ticker': 'FB', 'price': 10, 'description': 'This is a description of words and stuff for FB'}]
 
@@ -38,8 +39,10 @@ def signup(request):
 @login_required
 def stock_detail(request, stock_id):
     stock = Stock.objects.get(id = stock_id)
+    stock_form = StockForm()
     return render(request, 'stock_detail.html', {
-        'stock': stock,
+        'stock': stock, 'stock_form': stock_form
+
     })
 
 
@@ -114,3 +117,11 @@ class BucketUpdate(LoginRequiredMixin, UpdateView):
   model = Bucket
   fields = ['name']
   success_url = '/buckets/'
+
+def stock_inst_create(request):
+    form = StockForm(request.POST)
+    if form.is_valid():
+        new_stockInst = form.save(commit = False)
+        new_stockInst.price = Stock.objects.get(pk = form.stock.id).mr_close
+        new_stockInst.save()
+    return redirect('buckets_detail', bucket_id = form.bucket.id)
