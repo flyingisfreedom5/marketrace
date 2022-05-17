@@ -40,7 +40,7 @@ def stock_detail(request, stock_id):
     })
 
 
-ticker_arr = ['AAPL']
+ticker_arr = ['AAPL', 'GOOGL' ]
 
 
 @login_required
