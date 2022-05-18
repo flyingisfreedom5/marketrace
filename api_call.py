@@ -50,7 +50,7 @@ def runFunc():
 
 
     
-    schedule.every(6).hour.do(timedFunc)
+    schedule.every(6).hours.do(timedFunc)
 
     while run:
         schedule.run_pending()
