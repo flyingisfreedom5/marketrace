@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load template_filters %}
+{% load humanize %}
 
 <h1>Bucket Details</h1>
 
@@ -7,19 +9,32 @@
   <div class="col s6 col-offset-3">
     <div class="card">
       <div class="card-content">
-        <span class="card-title">{{ bucket.name }}</span>
-        <p>Date: {{ bucket.date }}</p>
+        <h3 class="card-title">Bucket Name: {{ bucket.name }}</h3>
+        <p>Date Created: {{ bucket.date }}</p>
+
+        {% if bucketReturn >= 0 %}
+          <p>Total Bucket Return: <span class="text-success">{{ bucketReturn }}%</span></p>
+        {% else %}
+          <p>Total Bucket Return: <span class="text-danger">{{ bucketReturn }}%</span></p>
+        {% endif %}
+        
       </div>
       <div class="card-action">
-          {% for stock in stocks %}
-          <div class="card">
-            <p>Ticker: {{ stock.stock.ticker }}</p>
-            <p>Current Price: {{ stock.stock.mr_close }}</p>
-            <p>Price when tracked: {{ stock.price }}</p>
-            <p>{% widthratio stock.stock.mr_close stock.price 1 %}</p>
-            <p></p>
-          </div>
-          {% endfor %}    
+        {% for stock in stocks %}
+        <div class="card">
+          <p>Ticker: {{ stock.stock.ticker }}</p>
+          <p>Most Recent Closing Price: ${{ stock.stock.mr_close|intcomma }}</p>
+          <p>Price When Tracked: ${{ stock.price|intcomma }}</p>
+
+          {% if stock.stock.mr_close|percChange:stock.price >= 0 %}
+          <p>Total Return: <span class="text-success">{{ stock.stock.mr_close|percChange:stock.price }}%</span></p>
+          {% else %}
+          <p>Total Return: <span class="text-danger">{{ stock.stock.mr_close|percChange:stock.price }}%</span></p>
+
+          {% endif %}
+
+        </div>
+        {% endfor %}
       </div>
     </div>
   </div>

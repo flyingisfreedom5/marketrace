@@ -109,8 +109,18 @@ def buckets_index(request):
 
 def bucket_detail(request, bucket_id):
     stocks = StockInstance.objects.filter(bucket = bucket_id)
-    print(stocks)
-    return render(request, 'main_app/bucket_detail.html', {'stocks': stocks})
+    
+    totalReturn = 0
+    totalCount = 0
+
+    for stock in stocks:
+        totalCount +=1
+        totalReturn += (  (stock.stock.mr_close/stock.price) -1  )
+    bucketReturn =  round(totalReturn / totalCount, 2)
+    return render(request, 'main_app/bucket_detail.html', {
+        'stocks': stocks,
+        'bucketReturn': bucketReturn
+        })
 
 
 
