@@ -49,7 +49,11 @@ def runFunc():
 
 
 
+<<<<<<< HEAD
     
+=======
+    idx = 0
+>>>>>>> 1eff916 (Bug fix with heroku db)
     schedule.every(6).hours.do(timedFunc)
 
     while run:
