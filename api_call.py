@@ -1,4 +1,4 @@
-run = False
+run = True
 
 
 def timedFunc():
@@ -13,7 +13,7 @@ def timedFunc():
     for tckr in stock_data_raw_obj:
         currStock = Stock.objects.filter(ticker=(tckr['T']))
 
-        if (len(currStock) == 0):
+        if (len(currStock) == 0 and tckr['v'] >= 10000000):
             currStock = Stock.objects.create(
                 ticker=tckr['T'],
                 mr_close=tckr['c'],
@@ -23,12 +23,35 @@ def timedFunc():
                 description='na',
                 market_cap=1
             )
-        else:
+        elif (len(currStock) > 0):
+            currStock = Stock.objects.get(ticker=(tckr['T']))
             currStock.mr_close = tckr['c']
             currStock.mr_volume = tckr['v']
-            currStock.save()
-        print(currStock)
+            print(f'1 - {currStock}')
+            currStock[0].save()
+        else:
+            pass
+        print(f'2 - {currStock}')
     
+
+def runFunc():
+    import requests
+    import json
+
+    import schedule, time
+
+    # from background_task import background
+
+    from main_app.models import Stock
+
+
+
+    idx = 0
+    schedule.every(20).seconds.do(timedFunc)
+
+    while run:
+        schedule.run_pending()
+        time.sleep(1)
 
 
 
