@@ -1,4 +1,4 @@
-run = False
+run = True
 from datetime import date
 from datetime import timedelta
 
@@ -20,6 +20,7 @@ def timedFunc():
                 ticker=tckr['T'],
                 mr_close=tckr['c'],
                 mr_volume=tckr['v'],
+                mr_vol_weighted=tckr['vw'],
                 industry='na',
                 logo='na',
                 description='na',
@@ -29,6 +30,7 @@ def timedFunc():
             currStock = Stock.objects.get(ticker=(tckr['T']))
             currStock.mr_close = tckr['c']
             currStock.mr_volume = tckr['v']
+            currStock.mr_vol_weighted = tckr['vw']
             currStock.save()
         else:
             pass
