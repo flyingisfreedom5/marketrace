@@ -1,4 +1,4 @@
-run = False
+run = True
 from datetime import date
 from datetime import timedelta
 
