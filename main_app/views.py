@@ -108,9 +108,24 @@ def buckets_index(request):
 
 
 def bucket_detail(request, bucket_id):
+    bucket = Bucket.objects.get(id = bucket_id)
     stocks = StockInstance.objects.filter(bucket = bucket_id)
-    print(stocks)
-    return render(request, 'main_app/bucket_detail.html', {'stocks': stocks})
+    stock_form = StockForm()
+    totalReturn = 0
+    totalCount = 0
+
+    for stock in stocks:
+        totalCount +=1
+        totalReturn += (  (stock.stock.mr_close/stock.price) -1  )
+    
+    
+    bucketReturn = round(totalReturn / totalCount, 2) if totalCount > 0 else 0
+    return render(request, 'main_app/bucket_detail.html', {
+        'bucket': bucket,
+        'stocks': stocks,
+        'bucketReturn': bucketReturn, 
+        'stock_form': stock_form,
+        })
 
 
 
@@ -131,7 +146,8 @@ def stock_inst_create(request, stock_id):
     form = StockForm(request.POST)
     if form.is_valid():
         new_stockInst = form.save(commit = False)
-        new_stockInst.price = Stock.objects.get(pk = stock_id).mr_close
+        # new_stockInst.price = Stock.objects.get(pk = stock_id).mr_close
+        new_stockInst.price = form.cleaned_data.get('stock').mr_close
         new_stockInst.save()
 
 
