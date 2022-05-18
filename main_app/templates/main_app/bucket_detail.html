@@ -18,6 +18,11 @@
           <p>Total Bucket Return: <span class="text-danger">{{ bucketReturn }}%</span></p>
         {% endif %}
         
+        <div class="card-action">
+          <a href="{% url 'buckets_update' bucket.id %}">Edit Bucket</a>
+          <a href="{% url 'buckets_delete' bucket.id %}">Delete Bucket</a>
+        </div>
+
       </div>
       <div class="card-action">
         {% for stock in stocks %}
@@ -36,6 +41,7 @@
         </div>
         {% endfor %}
 
+        
         <!-- DOES NOT HAVE PROPER ACTION FIELD YET -->
         <!-- <div class="card">
           <form action="" method="POST">

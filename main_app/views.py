@@ -117,7 +117,9 @@ def bucket_detail(request, bucket_id):
     for stock in stocks:
         totalCount +=1
         totalReturn += (  (stock.stock.mr_close/stock.price) -1  )
-    bucketReturn =  round(totalReturn / totalCount, 2)
+    
+    
+    bucketReturn = round(totalReturn / totalCount, 2) if totalCount > 0 else 0
     return render(request, 'main_app/bucket_detail.html', {
         'bucket': bucket,
         'stocks': stocks,

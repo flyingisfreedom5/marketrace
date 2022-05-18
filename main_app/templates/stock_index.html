@@ -3,7 +3,7 @@
 
 <section class="vh-100" >
   <div class="container">
-
+    <h2>All Stocks</h2>
     {% for stock in stocks %}
     <div class="card">
     <a href="{% url 'stock_detail' stock.id %}">
