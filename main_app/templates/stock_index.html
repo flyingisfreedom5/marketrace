@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load humanize %}
 
 <section class="vh-100" >
   <div class="container">
@@ -9,7 +10,7 @@
     <a href="{% url 'stock_detail' stock.id %}">
       <p>Ticker: {{ stock.ticker }}</p>
       <p>Most Recent Close ($): {{ stock.mr_close }}</p>
-      <p>Most Recent Trading Volume (# of Shares): {{ stock.mr_volume }}</p>
+      <p>Most Recent Trading Volume (# of Shares): {{ stock.mr_volume|intcomma }}</p>
     </a>
     </div>
     {% endfor %}

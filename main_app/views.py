@@ -146,7 +146,8 @@ def stock_inst_create(request, stock_id):
     form = StockForm(request.POST)
     if form.is_valid():
         new_stockInst = form.save(commit = False)
-        new_stockInst.price = Stock.objects.get(pk = stock_id).mr_close
+        # new_stockInst.price = Stock.objects.get(pk = stock_id).mr_close
+        new_stockInst.price = form.cleaned_data.get('stock').mr_close
         new_stockInst.save()
 
 
