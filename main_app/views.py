@@ -11,6 +11,7 @@ import requests
 from main_app.models import Bucket
 from .models import Stock, StockInstance
 from .forms import StockForm
+from django.contrib.auth.models import User
 
 # Stock = [{'ticker': 'APPL', 'price': 100, 'description': 'This is a description of words and stuff for APPL'}, {'ticker': 'MSFT', 'price': 200, 'description': 'This is a description of words and stuff for MSFT'}, {'ticker': 'FB', 'price': 10, 'description': 'This is a description of words and stuff for FB'}]
 
@@ -39,7 +40,13 @@ def signup(request):
 @login_required
 def stock_detail(request, stock_id):
     stock = Stock.objects.get(id = stock_id)
-    stock_form = StockForm()
+    bucket = Bucket(user = request.user)
+
+
+    stock_form = StockForm(data = request.POST or None, instance=bucket)
+
+
+
     return render(request, 'stock_detail.html', {
         'stock': stock, 'stock_form': stock_form
 
@@ -87,6 +94,7 @@ def stock_index(request):
     # mr_volume = models.PositiveIntegerField()
     # market_cap = models.PositiveBigIntegerField()
 
+
 class BucketCreate(LoginRequiredMixin, CreateView):
     model = Bucket
     fields = ['name']
@@ -106,11 +114,11 @@ def buckets_index(request):
 #     model = Bucket
 
 
-
+@login_required
 def bucket_detail(request, bucket_id):
     bucket = Bucket.objects.get(id = bucket_id)
     stocks = StockInstance.objects.filter(bucket = bucket_id)
-    stock_form = StockForm()
+    
     totalReturn = 0
     totalCount = 0
 
@@ -124,7 +132,7 @@ def bucket_detail(request, bucket_id):
         'bucket': bucket,
         'stocks': stocks,
         'bucketReturn': bucketReturn, 
-        'stock_form': stock_form,
+        
         })
 
 
@@ -137,22 +145,24 @@ class BucketDelete(LoginRequiredMixin, DeleteView):
   model = Bucket
   success_url = '/buckets/'
 
+
 class BucketUpdate(LoginRequiredMixin, UpdateView):
   model = Bucket
   fields = ['name']
   success_url = '/buckets/'
 
+@login_required
 def stock_inst_create(request, stock_id):
     form = StockForm(request.POST)
     if form.is_valid():
         new_stockInst = form.save(commit = False)
-        # new_stockInst.price = Stock.objects.get(pk = stock_id).mr_close
         new_stockInst.price = form.cleaned_data.get('stock').mr_close
         new_stockInst.save()
 
 
     return redirect('buckets_index')
 
+@login_required
 def stock_inst_delete(request, stock_id):
     bucket = StockInstance.objects.get(pk = stock_id).bucket
     StockInstance.objects.get(pk = stock_id).delete()
