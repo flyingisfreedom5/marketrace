@@ -108,8 +108,9 @@ def buckets_index(request):
 
 
 def bucket_detail(request, bucket_id):
+    bucket = Bucket.objects.get(id = bucket_id)
     stocks = StockInstance.objects.filter(bucket = bucket_id)
-    
+    stock_form = StockForm()
     totalReturn = 0
     totalCount = 0
 
@@ -118,8 +119,10 @@ def bucket_detail(request, bucket_id):
         totalReturn += (  (stock.stock.mr_close/stock.price) -1  )
     bucketReturn =  round(totalReturn / totalCount, 2)
     return render(request, 'main_app/bucket_detail.html', {
+        'bucket': bucket,
         'stocks': stocks,
-        'bucketReturn': bucketReturn
+        'bucketReturn': bucketReturn, 
+        'stock_form': stock_form,
         })
 
 
