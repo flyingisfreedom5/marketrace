@@ -10,7 +10,8 @@ class Stock(models.Model):
     logo = models.URLField(max_length=300)
     description = models.CharField(max_length=2500)
 
-    mr_close = models.PositiveIntegerField()
+    mr_close = models.FloatField()
+    mr_vol_weighted = models.FloatField()
     mr_volume = models.PositiveIntegerField()
     market_cap = models.PositiveBigIntegerField()
 
@@ -36,7 +37,7 @@ class Bucket(models.Model):
 
 class StockInstance(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    price = models.IntegerField()
+    price = models.FloatField()
     date = models.DateTimeField(auto_now_add = True)
     bucket = models.ForeignKey(Bucket, on_delete=models.CASCADE)
 
