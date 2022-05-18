@@ -152,3 +152,8 @@ def stock_inst_create(request, stock_id):
 
 
     return redirect('buckets_index')
+
+def stock_inst_delete(request, stock_id):
+    bucket = StockInstance.objects.get(pk = stock_id).bucket
+    StockInstance.objects.get(pk = stock_id).delete()
+    return redirect('bucket_detail', bucket_id = bucket.id)

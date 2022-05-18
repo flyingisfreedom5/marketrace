@@ -15,4 +15,5 @@ urlpatterns = [
     path('buckets/<int:pk>/delete/', views.BucketDelete.as_view(), name='buckets_delete'),
     path('buckets/<int:pk>/update/', views.BucketUpdate.as_view(), name='buckets_update'),
     path('stocks/<int:stock_id>/stock_inst_create', views.stock_inst_create, name='stock_inst_create'),
+    path('stockinst/<int:stock_id>/delete/', views.stock_inst_delete, name="stock_inst_delete"),
 ]
