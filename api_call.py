@@ -27,11 +27,10 @@ def timedFunc():
             currStock = Stock.objects.get(ticker=(tckr['T']))
             currStock.mr_close = tckr['c']
             currStock.mr_volume = tckr['v']
-            print(f'1 - {currStock}')
-            currStock[0].save()
+            currStock.save()
         else:
             pass
-        print(f'2 - {currStock}')
+        print(currStock)
     
 
 def runFunc():
