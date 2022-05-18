@@ -49,12 +49,12 @@ def runFunc():
 
 
 
-    idx = 0
-    schedule.every(20).seconds.do(timedFunc)
+    
+    schedule.every(6).hour.do(timedFunc)
 
     while run:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(21600)
 
 
 
