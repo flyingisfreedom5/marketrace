@@ -13,8 +13,6 @@ from .models import Stock, StockInstance
 from .forms import StockForm
 from django.contrib.auth.models import User
 
-# Stock = [{'ticker': 'APPL', 'price': 100, 'description': 'This is a description of words and stuff for APPL'}, {'ticker': 'MSFT', 'price': 200, 'description': 'This is a description of words and stuff for MSFT'}, {'ticker': 'FB', 'price': 10, 'description': 'This is a description of words and stuff for FB'}]
-
 def home(request):
     return render(request, 'home.html')
 
@@ -43,7 +41,7 @@ def stock_detail(request, stock_id):
     bucket = Bucket(user = request.user)
 
 
-    stock_form = StockForm(data = request.POST or None, instance=bucket)
+    stock_form = StockForm(data = request.POST or None, instance=bucket, user=request.user)
 
 
 
@@ -58,41 +56,10 @@ def stock_detail(request, stock_id):
 
 @login_required
 def stock_index(request):
-    # for ticker in ticker_arr:
-    #     stock_data_raw = requests.get(f'https://api.polygon.io/v1/open-close/{ticker}/2022-05-13?adjusted=true&apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU').json()
-    #     stock_ticker = ticker
-    #     stock_mr_close = stock_data_raw['close']
-    #     stock_mr_volume = stock_data_raw['volume']
-    
-    # currStock = Stock.objects.filter(ticker=ticker)
-
-    # if (len(currStock) == 0):
-    #     Stock.objects.create(
-    #         ticker = stock_ticker,
-    #         industry = 'na',
-    #         logo = 'na',
-    #         description = 'na',
-    #         mr_close = stock_mr_close,
-    #         mr_volume = stock_mr_volume,
-    #         market_cap = 1
-    #     )
-    # else:
-    #     currStock.mr_close = stock_mr_close
-    #     currStock.mr_volume = stock_mr_volume
     
     stocks = Stock.objects.all()
     return render(request,'stock_index.html', {'stocks': stocks})
 
-
-    # class Stock(models.Model):
-    # ticker = models.CharField(max_length=10)
-    # industry = models.CharField(max_length=50)
-    # logo = models.URLField(max_length=300)
-    # description = models.CharField(max_length=2500)
-
-    # mr_close = models.PositiveIntegerField()
-    # mr_volume = models.PositiveIntegerField()
-    # market_cap = models.PositiveBigIntegerField()
 
 
 class BucketCreate(LoginRequiredMixin, CreateView):
@@ -153,7 +120,7 @@ class BucketUpdate(LoginRequiredMixin, UpdateView):
 
 @login_required
 def stock_inst_create(request, stock_id):
-    form = StockForm(request.POST)
+    form = StockForm(request.POST, user=request.user)
     if form.is_valid():
         new_stockInst = form.save(commit = False)
         new_stockInst.price = form.cleaned_data.get('stock').mr_close

@@ -13,10 +13,10 @@ class StockForm(ModelForm):
     fields = ['stock', 'bucket']
 
   def __init__(self, *args, **kwargs):
-          
+          user = kwargs.pop('user')
           super(StockForm, self).__init__(*args, **kwargs)
           if self.instance:
-              self.fields['bucket'].queryset = Bucket.objects.filter(user = 4)
+              self.fields['bucket'].queryset = Bucket.objects.filter(user = user)
 
 
       
