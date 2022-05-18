@@ -31,6 +31,9 @@
             <p>Ticker: {{ stock.stock.ticker }}</p>
             <p>Most Recent Closing Price: ${{ stock.stock.mr_close|intcomma }}</p>
             <p>Price When Tracked: ${{ stock.price|intcomma }}</p>
+        
+            <a href="{% url 'stock_inst_delete' stock.id %}">Delete</a>
+            
 
             {% if stock.stock.mr_close|percChange:stock.price >= 0 %}
             <p>Total Return: <span class="text-success">{{ stock.stock.mr_close|percChange:stock.price }}%</span></p>
