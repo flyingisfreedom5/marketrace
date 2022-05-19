@@ -4,54 +4,58 @@
 {% load humanize %}
 <section class="vh-100" style="background-color: #E0DDAA;">
 
-
-<div class="container d-flex flex-row justify-content-around">
+  <div class="container d-flex flex-row justify-content-around">
+<div class="col mt-5">
   <div class="row">
-    <div class="col">
-      <div class="card-content">
-          <h3 class="card-title">Bucket Name: {{ bucket.name }}</h3>
-          <p>Date Created: {{ bucket.date }}</p>
+    <div class="card-content">
+      <h3 class="card-title">Summary Statistics: {{ bucket.name }}</h3>
+      <p>Date Created: {{ bucket.date|date:"SHORT_DATE_FORMAT" }}</p>
 
-          {% if bucketReturn >= 0 %}
-            <p>Total Bucket Return: <span class="text-success">{{ bucketReturn }}%</span></p>
-          {% else %}
-            <p>Total Bucket Return: <span class="text-danger">{{ bucketReturn }}%</span></p>
-          {% endif %}
+      {% if bucketReturn >= 0 %}
+        <p>Total Bucket Return: <span class="text-success">{{ bucketReturn }}%</span></p>
+      {% else %}
+        <p>Total Bucket Return: <span class="text-danger">{{ bucketReturn }}%</span></p>
+      {% endif %}
 
-          <div class="card-action">
-            <a href="{% url 'buckets_update' bucket.id %}">Edit Bucket</a>
-            <a href="{% url 'buckets_delete' bucket.id %}">Delete Bucket</a>
-          </div>
-        </div>
+      <div class="card-action">
+        <a href="{% url 'buckets_update' bucket.id %}">Edit Bucket</a>
+        <a href="{% url 'buckets_delete' bucket.id %}">Delete Bucket</a>
+      </div>
     </div>
   </div>
+
+  <div class="row h-25">
+    
+  </div>
+
   <div class="row">
-    <div class="col">
+    <div class="card-content">
       <div class="card-content">
-        <div class="card-content">
-          <div class="card-title"><h3>Add a new stock to {{ bucket.name }}</h3></div>
-        <form action="{% url 'stock_inst_create_bucket' bucket.id %}" method="POST">
-        {% csrf_token %}
-        {{ stock_form.as_p }}
-        
-        <button type="submit" class="btn btn-primary" value="Add Stock">Add Stock</button>
-        </form>
-        </div>
+        <div class="card-title"><h3>Add a new stock to {{ bucket.name }}</h3></div>
+      <form action="{% url 'stock_inst_create_bucket' bucket.id %}" method="POST">
+      {% csrf_token %}
+      {{ stock_form.as_p }}
+      
+      <button type="submit" class="btn btn-primary" value="Add Stock">Add Stock</button>
+      </form>
       </div>
     </div>
   </div>
 </div>
-<div class="container">
-  </div>
-  <div class="row">
-    <div class="col-6 d-flex justify-content-around">
+<div class="col">
+  <div class="col-6 d-flex ">
     <div class="card-action mt-5">
       <div class="text-center lead">
-    <span class="">Stocks currently in bucket</span>
+
+    
+      <span class=""><h3>Stocks currently in bucket</h3></span>
+   
     </div>
+    <div class="container-md align-items-center justify-content-center ">
+      <div class="row position-absolute h-75 overflow-auto d-flex flex-direction:column">
     {% for stock in stocks %}
-    <div class="card-content mt-5">
-      <p>Ticker: {{ stock.stock.ticker }}</p>
+    <div class="card-content mt-5 border border-dark w-75">
+      <p>Ticker: <b>{{ stock.stock.ticker }}</b></p>
       <p>Most Recent Closing Price: ${{ stock.stock.mr_close|intcomma }}</p>
       <p>Price When Tracked: ${{ stock.price|intcomma }}</p>
 
@@ -66,9 +70,32 @@
 
       <a href="{% url 'stock_inst_delete' stock.id %}">Delete from bucket</a>
     </div>
+    
     {% endfor %}
+  </div>
+  </div>
     </div>
     </div>
+</div>
+</div>
+
+
+
+  <!-- <div class="row">
+    <div class="col">
+      
+    </div>
+  </div> -->
+  <!-- <div class="row">
+    <div class="col">
+      
+    </div>
+  </div> -->
+<!-- </div>
+<div class="container">
+  </div>
+  <div class="row">
+    
   </div>
   <div class="row">
     <div class="col-3">
@@ -79,7 +106,7 @@
     <div class="col-3">
       
     </div>
-  </div>
+  </div> -->
 </div>
 </section>
 {% endblock %}
