@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-
+<div class="container">
+<div class="card text-white bg-primary mb-3 container d-flex align-items-center" style="max-width: 30rem; margin-top: 30%;">
 {% if object %}
   <h1>Edit <span class="teal-text">{{ object.name }}</span></h1>
 {% else %}
@@ -16,10 +17,11 @@
     {{ form.as_table }}
   </table>
   {% if object %}
-    <input type="submit" value="Update Bucket!" class="btn">
+  <button type="submit" class="btn btn-primary btn-lg">Update Bucket</button>
   {% else %}
-    <input type="submit" value="Add Bucket!" class="btn">
+    <button type="submit" class="btn btn-primary btn-lg">Add Bucket</button>
   {% endif %}
 </form>
-
+</div>
+</div>
 {% endblock %}
