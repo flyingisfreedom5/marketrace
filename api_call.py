@@ -48,10 +48,10 @@ def runFunc():
 
     from main_app.models import Stock
 # <<<<<<< HEAD
-
+    timedFunc()
     print('test')
     schedule.every(20).seconds.do(timedFunc)
-
+    
     # while run:
     #     time.sleep(1)
 

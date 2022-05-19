@@ -6,5 +6,5 @@ class MainAppConfig(AppConfig):
     name = 'main_app'
 
     def ready(self):
-        runFunc()
+        pass
         

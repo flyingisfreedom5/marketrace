@@ -12,8 +12,12 @@ from main_app.models import Bucket
 from .models import Stock, StockInstance
 from .forms import StockForm
 from django.contrib.auth.models import User
+from api_call import *
 
 def home(request):
+    user = request.user
+    if user.is_superuser:
+        runFunc()
     return render(request, 'home.html')
 
 def about(request):
