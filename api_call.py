@@ -1,6 +1,7 @@
 run = True
 from datetime import date
 from datetime import timedelta
+import threading
 
 def timedFunc():
     import requests
@@ -10,7 +11,7 @@ def timedFunc():
 
     today = date.today()
     yesterday = today - timedelta(days = 1)
-    stock_data_raw_obj = requests.get(f'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{yesterday}?adjusted=true&apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU').json()['results']
+    stock_data_raw_obj = requests.get(f'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2022-05-17?adjusted=true&apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU').json()['results']
 
     for tckr in stock_data_raw_obj:
         currStock = Stock.objects.filter(ticker=(tckr['T']))
@@ -46,15 +47,29 @@ def runFunc():
     # from background_task import background
 
     from main_app.models import Stock
-
-
-
+# <<<<<<< HEAD
+    timedFunc()
+    print('test')
+    schedule.every(20).seconds.do(timedFunc)
     
-    schedule.every(6).hours.do(timedFunc)
+    # while run:
+    #     time.sleep(1)
 
-    while run:
-        schedule.run_pending()
-        time.sleep(21600)
+    def run_continuously(interval=1):
+        cease_continuous_run = threading.Event()
+
+        class ScheduleThread(threading.Thread):
+            @classmethod
+            def run(cls):
+                while not cease_continuous_run.is_set():
+                    schedule.run_pending()
+                    time.sleep(interval)
+
+        continuous_thread = ScheduleThread()
+        continuous_thread.start()
+        return cease_continuous_run
+
+    run_continuously()
 
 
 

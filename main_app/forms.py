@@ -19,4 +19,10 @@ class StockForm(ModelForm):
               self.fields['bucket'].queryset = Bucket.objects.filter(user = user)
 
 
+class StockFormMod(ModelForm):
+  class Meta:
+    model = StockInstance
+    fields = ['stock']
+
+
       

@@ -5,7 +5,11 @@
 <section class="vh-100" style="background-color: #E0DDAA;">
   <div class="container h-100 d-flex flex-column justify-content-around">
     <div class="card w-25 h-25 d-flex justify-content-around align-items-center rounded shadow">
-      <img src="https://universal.hellopublic.com/companyLogos/AAPL@2x.png?v=848aac26-1e36-4454-8b32-9369ad8d94af" alt="" height=55 width=55>
+      {% if stock_logo %}
+        <img src="{{ stock_logo }}" alt="" height=60% width=60%>
+      {% else %}
+        <h4>{{ message }}</h4>
+      {% endif %}
       <div class>Ticker: {{ stock.ticker }}</div>
     </div>
       <div class="grid">
@@ -13,12 +17,25 @@
         <div class>Most Recent Trading Volume (# of Shares): {{ stock.mr_volume }}</div>
       </div>
       <div class="card">
+        
+        
+        {% if buckets %}
         <form action="{% url 'stock_inst_create' stock.id %}" method="POST">
           {% csrf_token %}
           {{ stock_form.as_p }}
           
           <input type="submit" class="btn"  value="Add Stock">
         </form>
+        {% else %}
+        <div class="card">
+  
+          <div class="card-content">
+          <a href="{% url 'buckets_create' %}">
+            <h5>Click here to create your first bucket</h5>
+          </a>
+        </div>  
+        </div>
+        {% endif %}
       </div>
   </div>
 </section>
