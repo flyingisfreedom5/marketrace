@@ -2,14 +2,13 @@
 {% block content %}
 {% load template_filters %}
 {% load humanize %}
+<section class="vh-100" style="background-color: #E0DDAA;">
 
-<h1>Bucket Details</h1>
 
-<div class="container-lg">
+<div class="container d-flex flex-row justify-content-around">
   <div class="row">
-    <div class="col s6 col-offset-3">
-      <div class="card">
-        <div class="card-content">
+    <div class="col">
+      <div class="card-content">
           <h3 class="card-title">Bucket Name: {{ bucket.name }}</h3>
           <p>Date Created: {{ bucket.date }}</p>
 
@@ -23,44 +22,64 @@
             <a href="{% url 'buckets_update' bucket.id %}">Edit Bucket</a>
             <a href="{% url 'buckets_delete' bucket.id %}">Delete Bucket</a>
           </div>
-
         </div>
-        <div class="card-action">
-          {% for stock in stocks %}
-          <div class="card">
-            <p>Ticker: {{ stock.stock.ticker }}</p>
-            <p>Most Recent Closing Price: ${{ stock.stock.mr_close|intcomma }}</p>
-            <p>Price When Tracked: ${{ stock.price|intcomma }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="card-content">
+        <div class="card-content">
+          <div class="card-title"><h3>Add a new stock to {{ bucket.name }}</h3></div>
+        <form action="{% url 'stock_inst_create_bucket' bucket.id %}" method="POST">
+        {% csrf_token %}
+        {{ stock_form.as_p }}
         
-            
-            
-            {% if stock.stock.mr_close|percChange:stock.price >= 0 %}
-            <p>Total Return: <span class="text-success">{{ stock.stock.mr_close|percChange:stock.price }}%</span></p>
-            {% else %}
-            <p>Total Return: <span class="text-danger">{{ stock.stock.mr_close|percChange:stock.price }}%</span></p>
-            
-            {% endif %}
-            
-            <a href="{% url 'stock_inst_delete' stock.id %}">Delete from bucket</a>
-          </div>
-          {% endfor %}
-
-          <div class="card">
-            <div class="card-content">
-              <div class="card-title"><h3>Add a new stock to {{ bucket.name }}</h3></div>
-          <form action="{% url 'stock_inst_create_bucket' bucket.id %}" method="POST">
-            {% csrf_token %}
-            {{ stock_form.as_p }}
-            
-            <input type="submit" class="btn"  value="Add Stock">
-          </form>
-        </div>
-        </div>
-
-
+        <button type="submit" class="btn btn-primary" value="Add Stock">Add Stock</button>
+        </form>
         </div>
       </div>
     </div>
   </div>
 </div>
+<div class="container">
+  </div>
+  <div class="row">
+    <div class="col-6 d-flex justify-content-around">
+    <div class="card-action mt-5">
+      <div class="text-center lead">
+    <span class="">Stocks currently in bucket</span>
+    </div>
+    {% for stock in stocks %}
+    <div class="card-content mt-5">
+      <p>Ticker: {{ stock.stock.ticker }}</p>
+      <p>Most Recent Closing Price: ${{ stock.stock.mr_close|intcomma }}</p>
+      <p>Price When Tracked: ${{ stock.price|intcomma }}</p>
+
+
+
+      {% if stock.stock.mr_close|percChange:stock.price >= 0 %}
+      <p>Total Return: <span class="text-success">{{ stock.stock.mr_close|percChange:stock.price }}%</span></p>
+      {% else %}
+      <p>Total Return: <span class="text-danger">{{ stock.stock.mr_close|percChange:stock.price }}%</span></p>
+
+      {% endif %}
+
+      <a href="{% url 'stock_inst_delete' stock.id %}">Delete from bucket</a>
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3">
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      
+    </div>
+  </div>
+</div>
+</section>
 {% endblock %}
