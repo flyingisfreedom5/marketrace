@@ -53,11 +53,11 @@ def runFunc():
 
     
 
-    schedule.every(6).hours.do(timedFunc)
+    schedule.every(1).minute.do(timedFunc)
 
     while run:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(21600)
 
 
 
