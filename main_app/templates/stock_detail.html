@@ -8,7 +8,11 @@
   <div class="container h-100 d-flex justify-content-center align-items-center">
     <div class="container-md col-4 h-50 d-flex shadow align-items-center justify-content-between bg-secondary rounded">
       <div class="card h-50 w-50 d-flex justify-content-center align-items-center">
-        <img src="https://universal.hellopublic.com/companyLogos/AAPL@2x.png?v=848aac26-1e36-4454-8b32-9369ad8d94af" alt="" height=55 width=55>
+        {% if stock_logo %}
+          <img src="{{ stock_logo }}" alt="" height=55 width=55>
+        {% else %}
+          <h6>{{ message }}</h6>
+        {% endif %}
         <div class="card shadow bg-success mt-2">Ticker: {{ stock.ticker }}</div>
       </div>
       <div class="container shadow bg-info">
