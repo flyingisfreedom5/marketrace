@@ -61,7 +61,7 @@ def stock_detail(request, stock_id):
                 stock_logo = (f"{stock_data_raw['results']['branding']['logo_url']}?apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU")
     else:
         message = 'Unable to render image'
-    print(f'logo - {stock_logo}')
+    
     return render(request, 'stock_detail.html', {
         'stock': stock, 
         'stock_form': stock_form,
@@ -77,7 +77,7 @@ def stock_detail(request, stock_id):
 @login_required
 def stock_index(request):
     
-    stocks = Stock.objects.all()
+    stocks = Stock.objects.all()[:20]
     return render(request,'stock_index.html', {'stocks': stocks})
 
 
@@ -94,7 +94,27 @@ class BucketCreate(LoginRequiredMixin, CreateView):
 @login_required
 def buckets_index(request):
   buckets = Bucket.objects.filter(user=request.user)
-  return render(request, 'main_app/buckets_index.html', {'buckets': buckets})
+  totalReturnArr = []
+  totalCountArr = []
+
+  for bucket in buckets:
+    totalReturn = 0
+    totalCount = 0
+    stocks_bucket = StockInstance.objects.filter(bucket=bucket.id) 
+    for stock in stocks_bucket:
+        totalCount +=1
+        totalReturn += (  (stock.stock.mr_close/stock.price) -1  ) * 100
+    
+    totalCountArr.append(totalCount)
+    bucketReturn = round(totalReturn / totalCount, 2) if totalCount > 0 else 0  
+    totalReturnArr.append(bucketReturn)
+    
+    data = {
+        'bucket_data': zip(buckets, totalCountArr, totalReturnArr)
+    }
+
+    print(f'data - {data}')
+  return render(request, 'main_app/buckets_index.html', data)
 
 
 # class BucketList(LoginRequiredMixin, ListView):

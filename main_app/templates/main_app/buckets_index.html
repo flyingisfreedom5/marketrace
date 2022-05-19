@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load humanize %}
 
 <section class="vh-100" style="background-color: #E0DDAA;">
-  <h1>Bucket List</h1>
+  
+  <div class="text-center pt-3">
+    <h1>My Buckets</h1>
+    <p class="lead text-muted">For more details, click a specific bucket</p>
 <div class="d-flex flex-row bd-highlight justify-content-evenly flex-wrap mt-5">
-{% for bucket in buckets %}
+  
+  {% for bucket, stockCount, totalReturn in bucket_data %}
+    
     <div class="d-flex col-3 justify-content-center mb-3">
         <div class="col-md-6">
             <div class="card p-3 mb-2 shadow">
@@ -13,15 +19,27 @@
                         <div class="ms-2 c-details">
                           <a href="{% url 'bucket_detail' bucket.id %}">
                             <span class="card-title">{{ bucket.name }}</span>
-                            <p>Date: {{ bucket.date }}</p>
                           </a>
+                          <p>Date Created: {{ bucket.date|date:"SHORT_DATE_FORMAT" }}</p>
+                          
+                          <p># Stocks in Bucket:  {{ stockCount }}</p>
+                          {% if totalReturn > 0 %}
+                            <p class="text-success">Total Return:  {{ totalReturn }}%</p>
+                          {% elif totalReturn < 0 %}
+                            <p class="text-danger">Total Return:  {{ totalReturn }}%</p>
+                          {% else %}
+                          <p>Total Return:  {{ totalReturn }}%</p>
+                          {% endif %}
                         </div>
                     </div> 
                 </div>
             </div>
         </div>
     </div>
+   
 {% endfor %}
+
+</div>
 </div>
 </section>
 
