@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 import requests
 from main_app.models import Bucket
 from .models import Stock, StockInstance
-from .forms import StockForm
+from .forms import StockForm, StockFormMod
 from django.contrib.auth.models import User
 from api_call import *
 
@@ -43,15 +43,31 @@ def signup(request):
 def stock_detail(request, stock_id):
     stock = Stock.objects.get(id = stock_id)
     bucket = Bucket(user = request.user)
-
+    buckets = Bucket.objects.filter(user = request.user)
 
     stock_form = StockForm(data = request.POST or None, instance=bucket, user=request.user)
 
-
-
+    message = ''
+    stock_logo = ''
+    # Pull stock logo
+    stock_data_raw = requests.get(f'https://api.polygon.io/v3/reference/tickers/{stock.ticker}?apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU').json()
+    
+    keyResults = 'results'
+    key = 'branding'
+    keyTwo = 'logo_url'
+    if keyResults in stock_data_raw:
+        if key in stock_data_raw[keyResults]:
+            if keyTwo in stock_data_raw[keyResults][key]:
+                stock_logo = (f"{stock_data_raw['results']['branding']['logo_url']}?apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU")
+    else:
+        message = 'Unable to render image'
+    print(f'logo - {stock_logo}')
     return render(request, 'stock_detail.html', {
-        'stock': stock, 'stock_form': stock_form
-
+        'stock': stock, 
+        'stock_form': stock_form,
+        'buckets': buckets,
+        'stock_logo': stock_logo,
+        'message': message
     })
 
 
@@ -97,13 +113,14 @@ def bucket_detail(request, bucket_id):
         totalCount +=1
         totalReturn += (  (stock.stock.mr_close/stock.price) -1  ) * 100
     
-    
+    stock_form = StockFormMod()
+
     bucketReturn = round(totalReturn / totalCount, 2) if totalCount > 0 else 0
     return render(request, 'main_app/bucket_detail.html', {
         'bucket': bucket,
         'stocks': stocks,
         'bucketReturn': bucketReturn, 
-        
+        'stock_form': StockFormMod()
         })
 
 
@@ -130,8 +147,18 @@ def stock_inst_create(request, stock_id):
         new_stockInst.price = form.cleaned_data.get('stock').mr_close
         new_stockInst.save()
 
-
     return redirect('buckets_index')
+
+@login_required
+def stock_inst_create_bucket(request, bucket_id):
+    form = StockFormMod(request.POST)
+    if form.is_valid():
+        new_stockInst = form.save(commit = False)
+        new_stockInst.price = form.cleaned_data.get('stock').mr_close
+        new_stockInst.bucket = Bucket.objects.get(id = bucket_id)
+        new_stockInst.save()
+
+    return redirect('bucket_detail', bucket_id=bucket_id)
 
 @login_required
 def stock_inst_delete(request, stock_id):

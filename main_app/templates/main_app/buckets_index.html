@@ -3,15 +3,27 @@
 
 <h1>Bucket List</h1>
 
+{% if buckets %}
 {% for bucket in buckets %}
-  <div class="card">
-    <a href="{% url 'bucket_detail' bucket.id %}">
-      <div class="card-content">
-        <span class="card-title">{{ bucket.name }}</span>
-        <p>Date: {{ bucket.date }}</p>
-      </div>
-    </a>
-  </div>
+<div class="card">
+  <a href="{% url 'bucket_detail' bucket.id %}">
+    <div class="card-content">
+      <span class="card-title">{{ bucket.name }}</span>
+      <p>Date: {{ bucket.date }}</p>
+    </div>
+  </a>
+</div>
 {% endfor %}
+{% else %}
+<div class="card">
+  
+    <div class="card-content">
+      <a href="{% url 'buckets_create' %}">
+        <h5>Click here to create your first bucket</h5>
+      </a>
+    </div>
+  </a>
+</div>
+{% endif %}
 
 {% endblock %}
