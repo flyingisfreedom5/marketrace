@@ -1,6 +1,7 @@
 run = True
 from datetime import date
 from datetime import timedelta
+import threading
 
 def timedFunc():
     import requests
@@ -46,18 +47,29 @@ def runFunc():
     # from background_task import background
 
     from main_app.models import Stock
-
-
-
 # <<<<<<< HEAD
 
-    
+    print('test')
+    schedule.every(20).seconds.do(timedFunc)
 
-    schedule.every(1).minutes.do(timedFunc)
+    # while run:
+    #     time.sleep(1)
 
-    while run:
-        schedule.run_pending()
-        time.sleep(1)
+    def run_continuously(interval=1):
+        cease_continuous_run = threading.Event()
+
+        class ScheduleThread(threading.Thread):
+            @classmethod
+            def run(cls):
+                while not cease_continuous_run.is_set():
+                    schedule.run_pending()
+                    time.sleep(interval)
+
+        continuous_thread = ScheduleThread()
+        continuous_thread.start()
+        return cease_continuous_run
+
+    run_continuously()
 
 
 
