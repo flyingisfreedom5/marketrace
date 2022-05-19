@@ -11,7 +11,14 @@ def timedFunc():
 
     today = date.today()
     yesterday = today - timedelta(days = 1)
-    stock_data_raw_obj = requests.get(f'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2022-05-17?adjusted=true&apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU').json()['results']
+
+    y = yesterday.strftime("%Y")
+    m = yesterday.strftime("%m")
+    d = yesterday.strftime("%d")
+    ydayDate = f'{y}-{m}-{d}'
+    
+    stock_data_raw_obj = requests.get(f'https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{ydayDate}?adjusted=true&apiKey=ISRFyZyx4zGrz0Pzy3veu6ou4pPUYQjU').json()['results']
+
 
     for tckr in stock_data_raw_obj:
         currStock = Stock.objects.filter(ticker=(tckr['T']))
