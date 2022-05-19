@@ -2,7 +2,7 @@
 {% block content %}
 {% load humanize %}
 
-<section class="vh-100" >
+<!-- <section class="vh-100" >
   <div class="container">
     <h2>All Stocks</h2>
     {% for stock in stocks %}
@@ -16,6 +16,37 @@
     {% endfor %}
 
   </div>
+</section> -->
+
+<section class="stocks vh-100" style="background-color: #E0DDAA">
+  <div class="container-md">
+    <div class="text-center pt-3"> 
+      <h2>All Stocks</h2>
+      <p class="lead text-muted">For more information, click details</p>
+    </div>
+    <div class="row my-3">
+      <div class="accordion d-flex flex-column justify-content-center align-items-center" id="stocks">
+        {% for stock in stocks %}
+        <div class="accordion-item col-lg-4">
+          <h5 class="accordion-header" id="heading-1">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{stock.ticker}}" aria-expanded="false" aria-controls="{{stock.ticker}}">
+              <span>Ticker: <b>{{ stock.ticker }}</b></span>
+            </button>
+          </h5>
+          <div id="{{stock.ticker}}" class="accordion-collapse collapse" aria-labelledby="{{stock.ticker}}" data-bs-parent="stocks">
+            <div class="accordion-body">
+              <p>Most Recent Close ($): {{ stock.mr_close }}</p>
+              <p>Most Recent Trading Volume (# of Shares): {{ stock.mr_volume|intcomma }}</p>
+              <p>Volume Weight Average Price (VWAP) (%): {{ stock.mr_vol_weighted|intcomma }}</p>
+              <a href="{% url 'stock_detail' stock.id %}">More details</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </section>
+
 
 {% endblock %}
