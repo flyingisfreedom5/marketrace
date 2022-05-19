@@ -18,7 +18,7 @@
                 <form action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
                   <div class="d-flex align-items-center mb-3 pb-1">
-                      <img src="https://cdn-icons.flaticon.com/png/128/2510/premium/2510702.png?token=exp=1652648336~hmac=b92ccc580ed8f4dfc5cc49de60753fb6" height=40vmin width=35vmin>
+                      <img src="{% static 'photos/marketrace_logo.png' %}" height=40vmin width=40vmin>
                     <span class="h3 fw-bold mb-0">Marketrace</span>
                   </div>
 
