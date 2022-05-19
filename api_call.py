@@ -57,7 +57,7 @@ def runFunc():
 
     while run:
         schedule.run_pending()
-        time.sleep()
+        time.sleep(1)
 
 
 
