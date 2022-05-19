@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Bucket List</h1>
-
-<div class="d-flex flex-row bd-highlight justify-content-even flex-wrap mt-5">
+<section class="vh-100" style="background-color: #E0DDAA;">
+  <h1>Bucket List</h1>
+<div class="d-flex flex-row bd-highlight justify-content-evenly flex-wrap mt-5">
 {% for bucket in buckets %}
     <div class="d-flex col-3 justify-content-center mb-3">
         <div class="col-md-6">
@@ -16,13 +16,14 @@
                             <p>Date: {{ bucket.date }}</p>
                           </a>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
         </div>
     </div>
 {% endfor %}
 </div>
+</section>
 
 
 {% endblock %}
