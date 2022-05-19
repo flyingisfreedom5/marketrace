@@ -77,7 +77,7 @@ def stock_detail(request, stock_id):
 @login_required
 def stock_index(request):
     
-    stocks = Stock.objects.all()[:20]
+    stocks = Stock.objects.all()
     return render(request,'stock_index.html', {'stocks': stocks})
 
 

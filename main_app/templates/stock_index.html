@@ -18,16 +18,16 @@
   </div>
 </section> -->
 
-<section class="stocks vh-100" style="background-color: #E0DDAA">
-  <div class="container-md">
-    <div class="text-center pt-3"> 
+<section class="stocks vh-100 w-100" style="background-color: #E0DDAA">
+  <div class="text-center pt-3"> 
       <h2>Top Stocks by Yesterday's Trading Volume</h2>
       <p class="lead text-muted">For more information, click details</p>
     </div>
-    <div class="row my-3">
+  <div class="container-md h-75 d-flex align-items-center justify-content-center">
+    <div class="row position-absolute h-75 w-50 overflow-auto">
       <div class="accordion d-flex flex-column justify-content-center align-items-center" id="stocks">
         {% for stock in stocks %}
-        <div class="accordion-item col-lg-4">
+        <div class="accordion-item col-lg-8">
           <h5 class="accordion-header" id="heading-1">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{stock.ticker}}" aria-expanded="false" aria-controls="{{stock.ticker}}">
               <span>Ticker: <b>{{ stock.ticker }}</b></span>
