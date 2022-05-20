@@ -163,7 +163,8 @@ def stock_inst_create(request, stock_id):
     form = StockForm(request.POST, user=request.user)
     if form.is_valid():
         new_stockInst = form.save(commit = False)
-        new_stockInst.price = form.cleaned_data.get('stock').mr_close
+        new_stockInst.stock = Stock.objects.get(pk = stock_id)
+        new_stockInst.price = Stock.objects.get(pk = stock_id).mr_close
         new_stockInst.save()
 
     return redirect('buckets_index')
