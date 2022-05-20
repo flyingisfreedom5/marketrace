@@ -81,3 +81,5 @@
 - [ ] Integrate an additional API call that will allow us to display more detailed information for individual stocks
 
 - [ ] Allow users to give weightings to each stock in their bucket, as well as to 'short' a specific stock
+
+- [ ] Clean up database to remove/recategorize ETFs from single-name stocks

@@ -18,7 +18,7 @@ def home(request):
     user = request.user
     if user.is_superuser:
         runFunc()
-    return render(request, 'home.html')
+    return render(request, 'about.html')
 
 def about(request):
     return render(request, 'about.html')
