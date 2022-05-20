@@ -24,7 +24,7 @@
 
 | About MarkeTrace |  |
 |------------ | ------------|
-| <h4 align='left'>MarkeTrace provides a simple platform for novice investors to track their favorite stocks and to asses how unique buckets of stocks perform over time.</h4> | <img src='public/images/Keppa_1.png' width='1100'> |
+| <h4 align='left'>MarkeTrace provides a simple platform for novice investors to track their favorite stocks and to asses how unique buckets of stocks perform over time.</h4> | <img src='main_app/static/photos/MT_1.png' width='1100'> |
 </details>
 
 
@@ -32,16 +32,16 @@
 <summary> Getting Started </summary>
 |  Keeping it Simple  |
 |------------ | ------------|
-| <h4 align='left'>MarkeTrace allows users to create an account with their own unique username and password, so they can feel safe their data is secure.</h4> | <img src='public/images/Keppa_1.png' width='1100'> |
-| <h4 align='left'>Our straightforward interface allows users to immediately start browsing stocks and creating their own unique buckets.</h4> | <img src='public/images/Keppa_2.png' width='1100'> |
+| <h4 align='left'>MarkeTrace allows users to create an account with their own unique username and password, so they can feel safe their data is secure.</h4> | <img src='main_app/static/photos/MT_2.png' width='1100'> |
+| <h4 align='left'>Our straightforward interface allows users to immediately start browsing stocks and creating their own unique buckets.</h4> | <img src='main_app/static/photos/MT_3.png' width='1100'> |
 </details>
 
 <details>
 <summary> Creating a Bucket</summary>
 | Pick Your Favorite Stocks |  |
 |------------ | ------------|
-| <h4 align='left'>Users are able to track inidividual stocks in their own unique buckets. A bucket could have a particular sector theme, securities you like in a given week, or maybe just any company whose name starts with 'A'!</h4> | <img src='public/images/Keppa_1.png' width='1100'> |
-| <h4 align='left'>Once a stock is added to a bucket, you can track its return over time relative to the day it was initially added. You can also view the overall return of each of the buckets you can create - bragging rights for the best returns!</h4> | <img src='public/images/Keppa_2.png' width='1100'> |
+| <h4 align='left'>Users are able to track inidividual stocks in their own unique buckets. A bucket could have a particular sector theme, securities you like in a given week, or maybe just any company whose name starts with 'A'!</h4> | <img src='main_app/static/photos/MT_4.png' width='1100'> |
+| <h4 align='left'>Once a stock is added to a bucket, you can track its return over time relative to the day it was initially added. You can also view the overall return of each of the buckets you can create - bragging rights for the best returns!</h4> | <img src='main_app/static/photos/MT_5.png' width='1100'> |
 </details>
 
 
