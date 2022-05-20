@@ -96,7 +96,7 @@ def buckets_index(request):
   buckets = Bucket.objects.filter(user=request.user)
   totalReturnArr = []
   totalCountArr = []
-
+  
   for bucket in buckets:
     totalReturn = 0
     totalCount = 0
@@ -108,12 +108,11 @@ def buckets_index(request):
     totalCountArr.append(totalCount)
     bucketReturn = round(totalReturn / totalCount, 2) if totalCount > 0 else 0  
     totalReturnArr.append(bucketReturn)
-    
-    data = {
+
+  data = {
         'bucket_data': zip(buckets, totalCountArr, totalReturnArr)
     }
 
-    print(f'data - {data}')
   return render(request, 'main_app/buckets_index.html', data)
 
 
