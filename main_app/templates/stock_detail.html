@@ -3,33 +3,54 @@
 {% load static %}
 {% load humanize %}
 
-
 <section class="vh-100" style="background-color: #E0DDAA;">
-  <div class="container h-100 d-flex justify-content-center align-items-center">
-    <div class="container-md col-4 h-50 d-flex shadow align-items-center justify-content-between bg-secondary rounded">
-      <div class="card h-50 w-50 d-flex justify-content-center align-items-center">
-        {% if stock_logo %}
-          <img src="{{ stock_logo }}" alt="" height=55 width=55>
-        {% else %}
-          <h6>{{ message }}</h6>
-        {% endif %}
-        <div class="card shadow bg-success mt-2">Ticker: {{ stock.ticker }}</div>
+  <div class="container h-100 flex-column d-flex justify-content-around align-items-center">
+    <div class="col d-flex align-items-center">
+      <div class="row">
+        <div class="col">
+          <div class="card-content">
+            {% if stock_logo %}
+              <img src="{{ stock_logo }}" class="bg-secondary rounded shadow-3" alt="" height=100 width=100>
+            {% else %}
+              <h6>{{ message }}</h6>
+            {% endif %}
+            <div class="card-content mt-2"><b>Ticker: {{ stock.ticker }}</b></div>
+          </div>
+        </div>
       </div>
-      <div class="container shadow bg-info">
-        <div class>Most Recent Close ($): {{ stock.mr_close|intcomma }}</div>
-        <div class>Most Recent Trading Volume (# of Shares): {{ stock.mr_volume|intcomma }}</div>
+      <div class="col-3">
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card-content d-flex flex-column w-100">
+            <span class="mt-4">Most Recent Close ($): {{ stock.mr_close|intcomma }}</span>
+            <span class="mt-2">Most Recent Trading Volume (# of Shares): {{ stock.mr_volume|intcomma }}</span>
+            <span class="mt-2">Volume Weight Average Price (VWAP) (%): {{ stock.mr_vol_weighted|intcomma }}</span>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="card h-50 col-4 align-items-center justify-content-center bg-secondary">
-      <form action="{% url 'stock_inst_create' stock.id %}" method="POST">
+    <div class="col ">
+      {% if buckets %}
+      <div class="card-content d-flex justify-content-center">
+        <form action="{% url 'stock_inst_create' stock.id %}" method="POST">
         {% csrf_token %}
         {{ stock_form.as_p }}
         
-        <input type="submit" class="btn"  value="Add Stock">
-      </form>
+        <button type="submit" class="btn btn-secondary btn-md">Add Stock</button>
+        {% else %}
+          <span><b>Create Your First Bucket</b></span>
+          <div class="d-flex justify-content-center mt-3">
+            <a href="/buckets/create/" class="btn btn-primary">Create Bucket</a>
+          </div>
+       {% endif %}
+        </form>
+      </div>
     </div>
   </div>
 </section>
+
+{% endblock %}
 
 
 {% endblock %}

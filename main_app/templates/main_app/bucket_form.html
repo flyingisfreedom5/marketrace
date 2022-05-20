@@ -1,27 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-<div class="card text-white bg-primary mb-3 container d-flex align-items-center" style="max-width: 30rem; margin-top: 30%;">
-{% if object %}
-  <h1>Edit <span class="teal-text">{{ object.name }}</span></h1>
-{% else %}
-  <h1>Add Bucket</h1>
-{% endif %}
-<!-- HTML forms will post back to the same
-     URL that's in the address bar if the 
-     action attribute is empty
--->
-<form action="" method="POST">
-  {% csrf_token %}
-  <table>
-    {{ form.as_table }}
-  </table>
-  {% if object %}
-  <button type="submit" class="btn btn-primary btn-lg">Update Bucket</button>
-  {% else %}
-    <button type="submit" class="btn btn-primary btn-lg">Add Bucket</button>
-  {% endif %}
-</form>
-</div>
-</div>
+{% load static %}
+
+<section class="vh-100" style="background-color: #E0DDAA;">
+  <div class="container bg-transparent h-75 w-50 mt-5">
+    <div class="card-heading">
+      <div class="card border border-secondary shadow">
+        <img src="{% static 'photos/bucket_create.jpg' %}" class="rounded" alt="sample image" height=300>
+      </div>
+    </div>
+    <div class="card-body d-flex justify-content-center mb-3">
+      <span class="lead mt-2"><h3>Create a new bucket</h3></span>
+    </div>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="d-flex justify-content-center">
+        <input class="input--style-1" placeholder="Bucket Name" type="text" name="name" maxlength="20" required id="id_name">
+      </div>
+    <div class="container d-flex justify-content-center mt-2">
+      {% if object %}
+      <button type="submit" class="btn btn-secondary btn-lg">Update Bucket</button>
+      {% else %}
+        <button type="submit" class="btn btn-secondary btn-md">Add Bucket</button>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
 {% endblock %}
