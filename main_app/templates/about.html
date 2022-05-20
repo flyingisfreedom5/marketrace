@@ -2,11 +2,30 @@
 
 {% block content %}
 
-<section class="vh-100" style="background-color: #E0DDAA;">
-<h1>About MarkeTrace</h1>
-<hr>
-<p>Here at MarketTrace, we want you to save your keystrokes for making money</p>
-<footer>All Rights Reserved, &copy; 2022 MarkeTrace Inc LLC</footer>
+<section class="vh-100 d-flex justify-content-start flex-column align-items-center" style="background-color: #E0DDAA;">
+    
+    <div class="mt-5">
+    <h1>About MarkeTrace</h1>
+    <hr>
+    <h5>MarketTrace is an easy-to-use platform that allows you to track publicly-traded securities in unique buckets.
+    </h5>
+    <br>
+    <h5>Once you're signed in, you're able to instantly create buckets and start Tracing!</h5>
+
+    {% if user.is_authenticated %}
+    <form action="{% url 'buckets_create' %}" method="GET">
+        <button class="btn btn-primary">Create New Bucket</button>
+    </form>
+
+    {% else %}
+
+    <form action="{% url 'signup' %}" method="GET">
+        <button class="btn btn-primary">Sign Up!</button>
+    </form>
+
+
+    {% endif %}
+</div>
 </section>
 
 {% endblock %}

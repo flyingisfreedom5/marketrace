@@ -18,7 +18,7 @@ def home(request):
     user = request.user
     if user.is_superuser:
         runFunc()
-    return render(request, 'home.html')
+    return render(request, 'about.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -96,7 +96,7 @@ def buckets_index(request):
   buckets = Bucket.objects.filter(user=request.user)
   totalReturnArr = []
   totalCountArr = []
-
+  
   for bucket in buckets:
     totalReturn = 0
     totalCount = 0
@@ -108,12 +108,11 @@ def buckets_index(request):
     totalCountArr.append(totalCount)
     bucketReturn = round(totalReturn / totalCount, 2) if totalCount > 0 else 0  
     totalReturnArr.append(bucketReturn)
-    
-    data = {
+
+  data = {
         'bucket_data': zip(buckets, totalCountArr, totalReturnArr)
     }
 
-    print(f'data - {data}')
   return render(request, 'main_app/buckets_index.html', data)
 
 
@@ -164,7 +163,8 @@ def stock_inst_create(request, stock_id):
     form = StockForm(request.POST, user=request.user)
     if form.is_valid():
         new_stockInst = form.save(commit = False)
-        new_stockInst.price = form.cleaned_data.get('stock').mr_close
+        new_stockInst.stock = Stock.objects.get(pk = stock_id)
+        new_stockInst.price = Stock.objects.get(pk = stock_id).mr_close
         new_stockInst.save()
 
     return redirect('buckets_index')

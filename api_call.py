@@ -1,7 +1,12 @@
 run = True
 from datetime import date
-from datetime import timedelta
+from datetime import timedelta, tzinfo
+import pytz
 import threading
+
+from datetime import datetime
+
+import pytz
 
 def timedFunc():
     import requests
@@ -9,9 +14,10 @@ def timedFunc():
     import schedule, time
     from main_app.models import Stock
 
-    today = date.today()
-    yesterday = today - timedelta(days = 1)
+    
+    tz_IN = pytz.timezone('US/Pacific') 
 
+    yesterday = datetime.now(tz_IN) - timedelta(days = 1)
     y = yesterday.strftime("%Y")
     m = yesterday.strftime("%m")
     d = yesterday.strftime("%d")

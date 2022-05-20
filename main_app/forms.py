@@ -10,7 +10,7 @@ class StockForm(ModelForm):
   
   class Meta:
     model = StockInstance
-    fields = ['stock', 'bucket']
+    fields = ['bucket']
 
   def __init__(self, *args, **kwargs):
           user = kwargs.pop('user')
